@@ -1,0 +1,54 @@
+stages:
+- stage: Pre
+  jobs:
+  - job: Steps
+    timeoutInMinutes: 0
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: PowerShell@2
+      name: Start
+      displayName: 'Start sending our Approval to Power Automate and Teams'
+      inputs:
+        targetType: inline
+        script: 
+
+          Write-Host "##[command] Lets set our Power Automate HTTP POST URL."
+          
+          $HTTPPOSTURL = "YOUR Power Automate URL HERE"
+
+          Write-Host "##[command] Lets build our PowerShell object containing all the required data for our AutoApprovalFlow."
+          
+          $autoApprovalObject = New-Object -TypeName PSObject -Property @{}
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ($InvoiceObject)
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have approved your request.")
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "buildID" -Value ($buildID)
+
+          Write-Host "##[command] Lets send our PowerShell object to our Power Automate HTTP POST URL."
+          
+          Invoke-RestMethod -Uri $HTTPPOSTURL -Method post -Body ($autoApprovalObject | ConvertTo-Json -Depth 100) -ContentType "application/json" -Verbose
+          
+          Write-Host "##[section] Now we wait if our verificationOwner is going to approve this request."
+
+- stage: Post
+  dependsOn: Pre
+  condition: succeeded('Pre')
+  jobs:
+  - deployment: Post
+    displayName: Post steps after approval request is approved
+    timeoutInMinutes: 0
+    pool:
+      vmImage: 'windows-latest'
+    environment: 'AutoApproval'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: PowerShell@2
+            name: Start
+            displayName: 'Get Invoice and Inform Teams'
+            inputs:
+              targetType: inline
+              script: 
+
+                Write-Host "##[section] We can continue our next stage because the previous was approved by the verification Owner."
