@@ -20,7 +20,7 @@ stages:
           Write-Host "##[command] Lets build our PowerShell object containing all the required data for our AutoApprovalFlow."
           
           $autoApprovalObject = New-Object -TypeName PSObject -Property @{}
-          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ($InvoiceObject)
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ("YOUR Verification Owner HERE")
           $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have approved your request.")
           $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "buildID" -Value ($buildID)
 
