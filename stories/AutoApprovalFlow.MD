@@ -34,7 +34,7 @@ Installation:
 2. After we imported our **AutoApprovalFlow** in Power Automate we need to edit the flow and:
     - Write down the HTTP Post URL from this step (first step in our flow):
 ![autoapprovalflowhttpposturl](/.attachments/drawings/autoapprovalflow/httpposturl.png "This is our diagram and result for our AutoApprovalFlow")
-- Fill in the URI (containg the Azure DevOps **organization** and **project name** from the prerequisites) and [PAT](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows#create-a-pat) in these three steps inside our imported flow (below you find the name of these three steps and a screenshot):
+- Change the URI to your Azure DevOps **organization** and **project name** and [PAT](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows#create-a-pat) in these three steps inside our imported flow (below you find the name of these three steps and a screenshot):
     - *Start getting the approval ID from the current build in Azure DevOps*
     - *Start patching the current build and cancelling the current build*
     - *Patch the current build so the approval request is handled*
