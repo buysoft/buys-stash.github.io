@@ -5,13 +5,15 @@ stages:
     timeoutInMinutes: 0
     pool:
       vmImage: 'windows-latest'
+    variables:
+      buildID: $(Build.BuildId)
     steps:
     - task: PowerShell@2
       name: Start
       displayName: 'Start sending our Approval to Power Automate and Teams'
       inputs:
         targetType: inline
-        script: 
+        script: |
 
           Write-Host "##[command] Lets set our Power Automate HTTP POST URL."
           
