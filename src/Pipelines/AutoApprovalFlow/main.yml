@@ -25,7 +25,7 @@ stages:
           
           $autoApprovalObject = New-Object -TypeName PSObject -Property @{}
           $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ("ronald.buys@wortell.nl")
-          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have approved your request.")
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have sended your approval request to the verificationOwner.")
           $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "buildID" -Value ($env:buildID)
 
           Write-Host "##[debug] This is our object and JSON payload:"
