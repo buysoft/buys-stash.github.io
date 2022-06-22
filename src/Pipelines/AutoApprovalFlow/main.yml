@@ -17,15 +17,15 @@ stages:
         targetType: inline
         script: |
 
-          Write-Host "##[command] Lets set our Power Automate HTTP POST URL."
+          Write-Host "##[command] Lets set our Power Automate HTTP POST URI."
           
-          $HTTPPOSTURL = "https://prod-173.westeurope.logic.azure.com:443/workflows/a7efd8bb156046fba668cb25c4f0dd02/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sBwW2DDPNqJnWbIHkIYu_jIy4FvvM2n-kWyn7ERn-1Y"
+          $HTTPPOSTURI = "YOUR HTTP POST URI"
 
           Write-Host "##[command] Lets build our PowerShell object containing all the required data for our AutoApprovalFlow."
           
           $autoApprovalObject = New-Object -TypeName PSObject -Property @{}
-          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ("ronald.buys@wortell.nl")
-          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have sended your approval request to the verificationOwner.")
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationOwner" -Value ("youraccount@approvalflow.nl")
+          $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "verificationMessage" -Value ("We have sent your approval request to the verificationOwner.")
           $autoApprovalObject | Add-Member -MemberType NoteProperty -Name "buildID" -Value ($env:buildID)
 
           Write-Host "##[debug] This is our object and JSON payload:"
@@ -34,9 +34,9 @@ stages:
           
           $autoApprovalObject | ConvertTo-Json -Depth 25
 
-          Write-Host "##[command] Lets send our PowerShell object to our Power Automate HTTP POST URL."
+          Write-Host "##[command] Lets send our PowerShell object to our Power Automate HTTP POST URI."
           
-          Invoke-RestMethod -Uri $HTTPPOSTURL -Method post -Body ($autoApprovalObject | ConvertTo-Json -Depth 100) -ContentType "application/json" -Verbose
+          Invoke-RestMethod -Uri $HTTPPOSTURI -Method post -Body ($autoApprovalObject | ConvertTo-Json -Depth 100) -ContentType "application/json" -Verbose
           
           Write-Host "##[section] Now we wait if our verificationOwner is going to approve this request."
 
@@ -49,7 +49,7 @@ stages:
     timeoutInMinutes: 0
     pool:
       vmImage: 'windows-latest'
-    environment: 'AutoApproval'
+    environment: 'AutoApprovalFlow'
     strategy:
       runOnce:
         deploy:
