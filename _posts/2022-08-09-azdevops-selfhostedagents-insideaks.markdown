@@ -358,6 +358,11 @@ Yet to be written...
 
 ## Part 7.1. Management
 
+
+
 ## Part 7.2. Troubleshooting
 
+
+
 ## Part 7.3. Hardening
+
