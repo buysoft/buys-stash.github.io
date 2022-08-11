@@ -2,7 +2,7 @@
 layout: post
 title:  "Azure DevOps Self-Hosted Agents with Azure Kubernetes Service"
 date:   2022-08-09 17:00:00 +0200
-categories: jekyll update
+categories: azure devops kubernetes service self hosted agents
 ---
 
 Looking for a way to deploy Azure DevOps Self-Hosted Agents and run them inside Azure Kubernetes Service (**AKS**)? Do you want your Linux distribution or Windows operating system loaded from Azure Container Registry? Or do you even need auto-scaling for your agents no matter it is a Linux distribution of Windows operating system?
