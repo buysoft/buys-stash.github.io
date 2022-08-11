@@ -202,7 +202,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
           labels:
             app: azdevops-agent
         spec:
-          replicas: 3 #here is the configuration for the actual agent always running
+          replicas: 1 #here is the configuration for the actual agent always running
           selector:
             matchLabels:
               app: azdevops-agent
