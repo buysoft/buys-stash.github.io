@@ -250,7 +250,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
 
         kubectl get namespaces
 
-11. Lets verify if the secret azdevops is created, but before we do that lets switch context to our newly created namespace:
+11. Lets verify if the secret azdevops is created, but before we do that lets switch the current context to our newly created namespace:
 
         kubectl config set-context --current --namespace=azdevops-agents
         kubectl get secret
