@@ -41,6 +41,7 @@ minima:
     linkedin: ronald-buys-💡-22461271
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 
 show_excerpts: true
 
