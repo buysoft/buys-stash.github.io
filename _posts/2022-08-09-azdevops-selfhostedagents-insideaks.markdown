@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Azure DevOps Self-Hosted Agents with Azure Kubernetes Services"
+title:  "Azure DevOps Self-Hosted Agents with Azure Kubernetes Service"
 date:   2022-08-09 17:00:00 +0200
 categories: jekyll update
 ---
 
-Looking for a way to deploy Azure DevOps Self-Hosted Agents and run them inside Azure Kubernetes Services (**AKS**)? Do you want your Linux distribution or Windows operating system loaded from Azure Container Registry? Or do you even need auto-scaling for your agents no matter it is a Linux distribution of Windows operating system?
+Looking for a way to deploy Azure DevOps Self-Hosted Agents and run them inside Azure Kubernetes Service (**AKS**)? Do you want your Linux distribution or Windows operating system loaded from Azure Container Registry? Or do you even need auto-scaling for your agents no matter it is a Linux distribution of Windows operating system?
 
 **STOP**! This is the place where you will find 'how' to do this. Just follow each part of the table of contents or pick the chapter related to your situation or question.
 
@@ -14,16 +14,16 @@ Looking for a way to deploy Azure DevOps Self-Hosted Agents and run them inside 
 
 # Azure DevOps Self-Hosted Agents
 
-This blog is a complete guide how to build your own Azure DevOps Self-Hosted Agents locally with Docker Desktop, inside AKS and use auto-scaling when required. All of this written in code and deployed from Azure CLI (also configurable with CI/CD in Azure Pipelines or GitHub Actions).
+This blog is a complete guide how to build your own Azure DevOps Self-Hosted Agents. This is partially done local with Docker Desktop, in Azure with Azure Kubernetes Service  (**AKS**), Azure Container Registry (ACR) and we can even apply auto-scaling when required to your scenario. All of this written in code and deployed from Azure CLI (also configurable with CI/CD in Azure Pipelines or GitHub Actions).
 
 Pre-requisites before starting:
-- Azure DevOps Project and full access where you want to deploy from.
-- Azure Tenant with at least one (active) Azure Subscription where you want to deploy to. 
-- The RBAC-role Owner assigned to your Azure AD Account on the (active) Azure Subscription. This is required because we need to register some Resource Providers.
-- [Visual Studio Code](https://code.visualstudio.com/) (or another code editor)
-- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-
+- A Azure DevOps Project with full access (Project Administrators group), this is the place where our Agent Pool will be configured.  
+- A Azure Tenant with at least one (active) Azure Subscription where you want to deploy your AKS and ACR to.  
+- The RBAC-role Owner assigned to your Azure AD Account on the (active) Azure Subscription. This is required because we need to register some Resource Providers.  
+- [Visual Studio Code](https://code.visualstudio.com/) (or another code editor).  
+- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).  
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).  
+  
 ## Part 1. Build, configure and test your image with Docker Desktop
 
 You can build several images, the hardest one I found to configure was Windows. So that is also the one we are focusing on here. Before we start we need to have the following information:
@@ -39,14 +39,14 @@ You can build several images, the hardest one I found to configure was Windows. 
         $Result = Invoke-WebRequest -Uri $URI -Method get -Headers $Headers -UseBasicParsing  
         ($Result.Content | ConvertFrom-Json).value | Select-Object name, id  
 
-Do you want to build this with Linux? No problem, go to the Dockerfile [here](...) and use it in the next steps:
+Do you want to build this with Linux? No problem, go to the Dockerfile [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops#create-and-build-the-dockerfile-1) and use it in the next steps:
 
 1. Download [Docker Desktop](https://docs.docker.com/get-docker/) for your Operating System and install Docker Desktop. Since I am using Windows I have selected Windows.
-  > If there is any issue with installing or using Docker Desktop in your Operating System then I can   help you out but do not have any troubleshooting tips on this page.
+  > If there is any issue with installing or using Docker Desktop in your Operating System then I can  help you out but I do not have any troubleshooting tips on this page.
   
 2. After the installation choose a location where you want to save the files we are about to make. If you are coding inside a repository just create a new branch and a folder of your choosing. I created the folder: **C:\dockeragent**
-3. Inside this folder we save the DockerFile which can be found [here](...).
-4. Also inside the same folder we save a file called start.ps1 which can be found [here](...).
+3. Inside this folder we save the DockerFile which can be found [here](https://github.com/buys-stash/in-a-box/blob/main/azdevops-selfhostedagents/dockerimages/windows/Dockerfile).
+4. Also inside the same folder we save a file called start.ps1 which can be found [here](https://github.com/buys-stash/in-a-box/blob/main/azdevops-selfhostedagents/dockerimages/windows/start.ps1).
 5. Now start a new PowerShell-window or use the terminal inside Visual Studio Code.
 6. Navigate to the folder you saved the previous created files.  
 
@@ -160,7 +160,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
 
         mkdir c:\dockeragent\kubeconfig
 
-3. Inside this folder we will copy all the files in this [folder](... folder of namespace-, replicationcontroller- and secret.yml) to the subfolder we just created.
+3. Inside this folder we will copy all the files in this [folder](https://github.com/buys-stash/in-a-box/tree/main/azdevops-selfhostedagents/kubernetes) to the subfolder we just created.
 4. After you copied all the required files we are going to login to our AKS Cluster (make sure you are logged in with the Azure CLI and selected the (active) Azure Subscription where you AKS Cluster is deployed in).
 
         az aks get-credentials --resource-group "rg-selfhostedagents" --name "aks-selfhostedagents"
@@ -352,32 +352,12 @@ So you have an AKS Cluster and Azure Container Registry up and running but also 
           Invoke-WebRequest -Uri $URI -Method get -Headers $Headers -UseBasicParsing
         }
 
-## Part 7. What is next?
+# Part 7. What is next?
+
+Yet to be written...
 
 ## Part 7.1. Management
 
 ## Part 7.2. Troubleshooting
 
 ## Part 7.3. Hardening
-
-Jekyll requires `_posts` blog post files to be named according to the following format:
-
-`YEAR-MONTH-DAY-title.MARKUP`
-
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
-
-Jekyll also offers powerful support for code snippets:
-
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
-
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
-
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
