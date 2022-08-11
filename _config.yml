@@ -28,10 +28,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://buys-stash.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-theme: minima
-author:
-  name: Ronald Buys
-  email: "rbuys@live.com"
+remote_theme: jekyll/minima
 minima:
   skin: dark
   date_format: "%b %-d, %Y"
@@ -39,6 +36,11 @@ minima:
     twitter: azure
     github: buys-stash
     linkedin: ronald-buys-💡-22461271
+
+author:
+  name: Ronald Buys
+  email: "rbuys@live.com"
+  
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
