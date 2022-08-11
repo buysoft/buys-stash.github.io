@@ -28,7 +28,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://buys-stash.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-remote_theme: minima
+theme: minima
 author:
   name: Ronald Buys
   email: "rbuys@live.com"
