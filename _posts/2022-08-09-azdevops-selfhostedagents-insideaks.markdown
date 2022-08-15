@@ -47,16 +47,20 @@ Do you want to build this with Linux? No problem, go to the Dockerfile [here](ht
 2. After the installation choose a location where you want to save the files we are about to make. If you are coding inside a repository just create a new branch and a folder of your choosing. I created the folder: **C:\dockeragent**
 3. Inside this folder we save the DockerFile which can be found [here](https://github.com/buys-stash/in-a-box/blob/main/azdevops-selfhostedagents/dockerimages/windows/Dockerfile).
 4. Also inside the same folder we save a file called start.ps1 which can be found [here](https://github.com/buys-stash/in-a-box/blob/main/azdevops-selfhostedagents/dockerimages/windows/start.ps1).
-5. Now start a new PowerShell-window or use the terminal inside Visual Studio Code.
-6. Navigate to the folder you saved the previous created files.  
+5. Switch with Docker Desktop to Windows container modus by right clicking on the running Docker Desktop icon (in Windows this is on your taskbar at the right side).
+
+![switch_windows_containers](/.attachments/switchtowindowscontainers.jpeg)
+
+6. Now start a new PowerShell-window or use the terminal inside Visual Studio Code.
+7. Navigate to the folder you saved the previous created files.  
 
         cd c:\dockeragent  
   
-7. Run this command to build a new image from the created Dockerfile with the **name** dockeragent and the **tag** latest.  
+8. Run this command to build a new image from the created Dockerfile with the **name** dockeragent and the **tag** latest.  
 
         docker build -t dockeragent:latest .  
 
-8. The image is build, now we can run and test it.  
+9. The image is build, now we can run and test it.  
 
 With all the required information and all the steps we did we can run and see if our image can be build and our container can register as a Azure DevOps Self-Hosted Agent.  
 Now start a new PowerShell-window or use the terminal inside Visual Studio Code and run the code below (replace the values with your values):  
