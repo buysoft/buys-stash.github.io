@@ -65,7 +65,7 @@ Do you want to build this with Linux? No problem, go to the Dockerfile [here](ht
 With all the required information and all the steps we did we can run and see if our image can be build and our container can register as a Azure DevOps Self-Hosted Agent.  
 Now start a new PowerShell-window or use the terminal inside Visual Studio Code and run the code below (replace the values with your values):  
 
-        $AZP_URL = https://dev.azure.com/**\<organization name\>**
+        $AZP_URL = https://dev.azure.com/**<organization name>**
         $AZP_TOKEN = "<Azure DevOps PAT token>"
         $AZP_POOL = "<Azure DevOps Agent Pool Name>"
         docker run -e AZP_URL=$AZP_URL -e AZP_TOKEN=$AZP_TOKEN -e AZP_POOL=$AZP_POOL -e AZP_AGENT_NAME=mydockeragent dockeragent:latest
@@ -147,7 +147,7 @@ We have a Azure Container Registry with an image tested running as a Azure DevOp
         --resource-group "rg-selfhostedagents" \
         --cluster-name "aks-selfhostedagents" \
         --os-type Windows \
-        --name azdevops \
+        --name azhosts \
         --node-count 1
 
 When the AKS Cluster and node pool are deployed you can continue to the next part of this guide.
@@ -180,8 +180,14 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
         $REGISTRY_URL = "$ACR_NAME.azureacr.io"
         $ACR_CREDENTIALS = az acr credential show -n $ACR_NAME | ConvertFrom-Json
         $ACR_USERNAME = $ACR_CREDENTIALS.username
+
         $ACR_PASSWORD = $ACR_CREDENTIALS.passwords[0].value
+        **OR**
+        $ACR_PASSWORD = $ACR_CREDENTIALS.passwords.value
+
         kubectl create secret docker-registry acr-secret --docker-server=$REGISTRY_URL --docker-username=$ACR_USERNAME --docker-password=$ACR_PASSWORD
+
+        az acr update -n $ACR_NAME --admin-enabled true
 
 8. Before we apply all the recently copied files we need to adjust some files, lets open the Secret.yml and replace the values mentioned between <> and save the file:
 
@@ -201,7 +207,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
         apiVersion: apps/v1
         kind: Deployment
         metadata:
-          name: azdevops
+          name: azhosts
           namespace: azdevops-agents
           labels:
             app: azdevops-agent
@@ -244,7 +250,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
                 hostPath:
                   path: /var/run/docker.sock
 
-9. Lets apply all the files:
+9. Lets apply all the files (use full filepaths if you are not in the directory where these files are stored inside your current terminal session):
 
         kubectl apply -f Namespace.yml
         kubectl apply -f Secret.yml
@@ -259,7 +265,7 @@ We have a Azure Container Registry (ACR) and a configured AKS Cluster, now we on
         kubectl config set-context --current --namespace=azdevops-agents
         kubectl get secret
 
-12. Finally lets verify if the deployment azdevops is created:
+12. Finally lets verify if the deployment azhosts is created:
 
         kubectl get deployment
 
@@ -285,6 +291,7 @@ So you have an AKS Cluster and Azure Container Registry up and running but also 
         az feature register --name AKS-KedaPreview --namespace Microsoft.ContainerService
         az feature list -o table --query "[?contains(name, 'Microsoft.ContainerService/AKS-KedaPreview')].{Name:name,State:properties.state}"
         az provider register --namespace Microsoft.ContainerService
+        az extension add --upgrade --name aks-preview
         az aks update `
         --resource-group "rg-selfhostedagents" `
         --name "aks-selfhostedagents" `
