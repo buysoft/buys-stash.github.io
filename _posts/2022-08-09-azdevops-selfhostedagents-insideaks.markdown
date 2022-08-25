@@ -362,18 +362,3 @@ So you have an AKS Cluster and Azure Container Registry up and running but also 
         for (;$i -le 20;$i++){
           Invoke-WebRequest -Uri $URI -Method get -Headers $Headers -UseBasicParsing
         }
-
-# Part 7. What is next?
-
-Yet to be written...
-
-## Part 7.1. Management
-
-
-
-## Part 7.2. Troubleshooting
-
-
-
-## Part 7.3. Hardening
-
