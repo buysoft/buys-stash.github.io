@@ -47,7 +47,7 @@ That depending on your scenario Managed is by default the way to go. As soon as 
 - **Requires installation of custom tooling, modules etc. each job**; this is applicable to the case you require additional tooling that needs to be installed (besides the pre-installed software). In the scenario of Managed it will be installed each time, which can take a lot of seconds/minutes or more to complete your Pipeline/GitHub Action. In the other scenarios we can pre-install this and reduce the total run time of our Pipeline/GitHub Action.
 - **VNET integration**; so in the case you need to isolate the machines or have a requirement to access endpoints within a specific network (VNET) then you can achieve this for not Managed scenarios. This also depends on the type of traffic and if you need to access on-premises.
 - **Horizontal scaling**; if you have a single job, each scenario can be ran. If you require multiple jobs to be ran each time then check the requirements/limitations [above](#why-even-bother).
-- **Vertical scaling**; so we assume most development teams don't require that much processing power (CPU) or RAM. But in the case you do, we need to switch to the not Managed scenarios. This can be applicable for multi-core processes or ETL workloads with specific hardware requirements. The Azure DevOps Managed Agent and GitHub Hosted Runner hardware consists of 2 core CPU, 7 GB of RAM, and 14 GB of SSD disk space. For GitHub there are Larger runners available with better hardware, check it [here](https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners#machine-specs-for-larger-runners).
+- **Vertical scaling**; so we assume most development teams don't require that much processing power (CPU) or RAM. But in the case you do, we need to switch to the not Managed scenarios. This can be applicable for multi-core processes or ETL workloads with specific hardware requirements. The Azure DevOps Managed Agent and GitHub Hosted Runner hardware consists of 2 core CPU, 7 GB of RAM, and 14 GB of SSD disk space. For GitHub there are Larger runners available with more capacity, check it [here](https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners#machine-specs-for-larger-runners).
 - **Costs**; somehow important right? Together with the scenarios above, total runtime of your jobs per day/month we can calculate the total costs and compare them with each other. Keep in mind that in Azure we can also apply dev/test subscriptions and reserved instances to reduce costs even more.
 
 ## But the pricing of managed versus other solutions, how does that end up?
@@ -63,7 +63,7 @@ That is easy to say, so lets look at this table where we check the licenses for 
 Now lets calculate our total costs in these scenarios where we add the costs for running these machines (based on 6 hours each day):
 
 - Our AKS-cluster costs € 17,17 per VM running 6 hours a day. This is based on the Azure Pricing Calculator and can differ.
-- The used SKU B2ms can be compared to the Azure DevOps and GitHub Managed Agent/Runner hardware containing 2 core CPU, 7 GB of RAM, and 14 GB of SSD disk space. For GitHub there are Larger runners available with better hardware, check it [here](https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners#machine-specs-for-larger-runners).
+- The used SKU B2ms can be compared to the Azure DevOps and GitHub Managed Agent/Runner hardware containing 2 core CPU, 7 GB of RAM, and 14 GB of SSD disk space. For GitHub there are Larger runners available with more capacity, check it [here](https://docs.github.com/en/actions/using-github-hosted-runners/using-larger-runners#machine-specs-for-larger-runners).
 
 |                             | (Azure DevOps) Managed Agents | (Azure DevOps) Self-Hosted Agents | (GitHub) Private Runners |
 | --------------------------- | ----------------------------- | --------------------------------- | ------------------------ |
@@ -75,12 +75,14 @@ Now lets calculate our total costs in these scenarios where we add the costs for
 
 Depending on your scenario and requirements. I will not say you must do this!
 
-However my personal preference is to install my own Self-Hosted Agents each time, no matter if it is Azure DevOps or GitHub. There are just too many benefits from having your own Self-Hosted Agents.
+However my personal preference is to install my own Self-Hosted Agents each time, no matter if it is Azure DevOps or GitHub. There are just too many benefits from having your own Self-Hosted Agents or Private Runners.
 
 Also consider the following:
 
 - Management of these Self-Hosted Agents
 - Alerting and monitoring
+
+If you have any questions about this please let me know!?
 
 # Installation Guide - Azure DevOps Self-Hosted Agents
 
